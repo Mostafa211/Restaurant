@@ -1,0 +1,114 @@
+
+
+<div class="container-fluid">
+
+  <form #f="ngForm" class="row my-5 border border-secondary">
+
+    <div class="col-md-4">
+
+      
+
+        <div class="form-group d-flex p-4">
+
+          <label class="col-sm-3">Category</label>
+
+          <select required name="category" [(ngModel)]="selectedcategory" class="form-control col-sm-9">
+
+            <option *ngFor="let category of categories" [value]="category.categoryId">
+              {{ category.name }}
+            </option>
+
+          </select>
+
+
+        </div>
+
+
+        <div class="form-group d-flex p-4">
+
+          <label class="col-sm-3">Meal</label>
+
+          <select required *ngIf="f.value.category" name="subcategory" [(ngModel)]="selectedsubcategory"
+            class="form-control col-sm-9">
+
+
+            <option *ngFor="let category of contents[f.value.category]" [value]="category">
+              {{category}}
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="form-group d-flex p-4">
+
+          <label class="col-sm-3">q</label>
+
+          <input required name="quantity" type="number" min="1" oninput="validity.valid||(value='');" [(ngModel)]="quantity" class="form-control col-sm-9">
+
+        </div>
+
+
+      
+
+    </div>
+    <div class="col-md-4 p-5 position-relative">
+
+      <div class="form-check px-5">
+        <input name="combo" [(ngModel)]="combo" class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+        <label class="form-check-label" for="inlineCheckbox1">Combo - add 2LE</label>
+      </div>
+      <div class="form-check px-5">
+        <input name="spicy" [(ngModel)]="spicy" class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+        <label class="form-check-label" for="inlineCheckbox2">Spicy - add 1LE</label>
+      </div>
+
+      <div class="p-4 position-relative h-100">
+        <p class="price font-weight-bold">Price {{(selectedsubcategory?prices[selectedsubcategory]*quantity:0)+(f.value.spicy?1*quantity:0)+(f.value.combo?2*quantity:0)}}LE</p>
+      </div>
+
+    </div>
+    
+    <div class="col-md-4 position-relative">
+
+      <button type="button" class="btn btn-primary add-button px-5" [disabled]="!f.valid" (click)="items.push({meal: selectedsubcategory,
+        Q: quantity,price: (selectedsubcategory?prices[selectedsubcategory]*quantity:0),
+        addons:((f.value.spicy?'spicy':'') + ' ' + (f.value.combo?'combo':'')),
+        total: ((selectedsubcategory?prices[selectedsubcategory]*quantity:0) + (f.value.spicy?1*quantity:0) + (f.value.combo?2*quantity:0))});
+        totalAll = totalAll + ((selectedsubcategory?prices[selectedsubcategory]*quantity:0) + (f.value.spicy?1*quantity:0) + (f.value.combo?2*quantity:0));
+        quantity= null; combo = false; spicy = false; selectedcategory = '1'; selectedsubcategory = null">Add</button>
+  
+    </div>
+
+  </form>
+</div>
+
+<div class="row">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">item</th>
+        <th scope="col">Q</th>
+        <th scope="col">price</th>
+        <th scope="col">Addons</th>
+        <th scope="col">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of items">
+        <th>{{item.meal}}</th>
+        <td>{{item.Q}}</td>
+        <td>{{item.price}}</td>
+        <td>{{item.addons}}</td>
+        <td>{{item.total}}</td>
+      </tr>
+     
+    </tbody>
+  </table>
+  
+</div>
+
+<div class="position-relative">
+  <p class="total font-weight-bold">Total {{totalAll}}LE</p>
+</div>

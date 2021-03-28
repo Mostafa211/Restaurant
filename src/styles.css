@@ -1,0 +1,18 @@
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.is-active {
+  background-color: lightslategrey;
+  color: white;
+}
+
+

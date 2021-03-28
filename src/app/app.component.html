@@ -1,0 +1,16 @@
+<section class="container-fluid p-5">
+
+    <div>
+        <h2 class="font-weight-bold py-3">Restaurant Order</h2>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-outline-secondary rounded-0 font-weight-bold" routerLink='add' [routerLinkActive]="['is-active']">Add meal</button>
+            <button type="button" class="btn btn-outline-secondary font-weight-bold" routerLink='main' [routerLinkActive]="['is-active']">Add order</button>
+            <button type="button" class="btn btn-outline-secondary rounded-0 font-weight-bold">Reports</button>
+        </div>
+
+        <router-outlet></router-outlet>
+
+    </div>
+
+</section>
